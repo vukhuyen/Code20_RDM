@@ -38,13 +38,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Sandbox\SimdisPlugin\vc11\Code20_RDM\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">SimplePlatform.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">piSimplePlatform_win64_vc-11.0</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Sandbox\SimdisPlugin\vc11\Code20_RDM\RelWithDebInfo\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(ProjectDir)\RelWithDebInfo\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">SimplePlatform.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">piSimplePlatform</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.dll</TargetExt>
@@ -56,7 +56,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(NDDSHOME)\include;$(NDDSHOME)\include\ndds;C:\temp\PluginAPI\vc11\PluginClient;C:\temp\PluginAPI\vc11\STL;C:\temp\PluginAPI\vc11\STD;C:\Sandbox\SimdisPlugin\vc11\Code20_RDM\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(NDDSHOME)\include;$(NDDSHOME)\include\ndds;$(PluginAPI_v11)\PluginClient;$(PluginAPI_v11)\STL;$(PluginAPI_v11)\STD;$(Qtdir)\include;$(Qtdir)\include\Qtcore;$(Qtdir)\include\QtGui;$(Qtdir)\include\QtWidgets;$(ProjectDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
@@ -70,14 +70,14 @@
       <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;WIN32;WIN64;_WINDOWS;NDEBUG;PLUGINS=1;_CRT_SECURE_NO_WARNINGS;SIM_LITTLE_ENDIAN;FLOAT_MATH_FUNCTIONS;FOXDLL;FOX_BIGENDIAN=0;FTGL_LIBRARY_STATIC;XML_STATIC;CMAKE_INTDIR="Release";SimplePlatform_EXPORTS;RTI_WIN32;NDDS_DLL_VARIABLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>Release</AssemblerListingLocation>
       <ObjectFileName>$(IntDir)</ObjectFileName>
-      <ProgramDataBaseFileName>C:/Sandbox/SimdisPlugin/vc11/Code20_RDM/Release/piSimplePlatform_win64_vc-11.0.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(ProjectDir)/Release/piSimplePlatform_win64_vc-11.0.pdb</ProgramDataBaseFileName>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;PLUGINS=1;_CRT_SECURE_NO_WARNINGS;SIM_LITTLE_ENDIAN;FLOAT_MATH_FUNCTIONS;FOXDLL;FOX_BIGENDIAN=0;FTGL_LIBRARY_STATIC;XML_STATIC;CMAKE_INTDIR=\"Release\";SimplePlatform_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:/temp/PluginAPI/vc11/STD;C:/temp/PluginAPI/vc11/STL;C:/temp/PluginAPI/vc11/PluginClient;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(PluginAPI_v11)/STD;$(PluginAPI_v11)/STL;$(PluginAPI_v11)/PluginClient;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:/temp/PluginAPI/vc11/STD;C:/temp/PluginAPI/vc11/STL;C:/temp/PluginAPI/vc11/PluginClient;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(PluginAPI_v11)/STD;$(PluginAPI_v11)/STL;$(PluginAPI_v11)/PluginClient;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -86,11 +86,11 @@
     </Midl>
     <Link>
       <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;..\PluginClient\Release\PluginClient.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(NDDSHOME)\lib\x64Win64VS2010;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;C:\dev\GitHub\Code20_RDM\Release\PluginClient.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\dev\GitHub\PluginAPI_v11\Release\PluginClient.lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <ImportLibrary>C:/Sandbox/SimdisPlugin/vc11/Code20_RDM/Release/SimplePlatform_win64_vc-11.0.lib</ImportLibrary>
-      <ProgramDataBaseFile>C:/Sandbox/SimdisPlugin/vc11/Code20_RDM/Release/piSimplePlatform_win64_vc-11.0.pdb</ProgramDataBaseFile>
+      <ImportLibrary>$(ProjectDir)/Release/SimplePlatform_win64_vc-11.0.lib</ImportLibrary>
+      <ProgramDataBaseFile>$(ProjectDir)/Release/piSimplePlatform_win64_vc-11.0.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version>
       </Version>
@@ -101,7 +101,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:/temp/PluginAPI/vc11/STD;C:/temp/PluginAPI/vc11/STL;C:/temp/PluginAPI/vc11/PluginClient;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(PluginAPI_v11)/STD;$(PluginAPI_v11)/STL;$(PluginAPI_v11)/PluginClient;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -114,14 +114,14 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;PLUGINS=1;_CRT_SECURE_NO_WARNINGS;SIM_LITTLE_ENDIAN;FLOAT_MATH_FUNCTIONS;FOXDLL;FOX_BIGENDIAN=0;FTGL_LIBRARY_STATIC;XML_STATIC;CMAKE_INTDIR="RelWithDebInfo";SimplePlatform_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>RelWithDebInfo</AssemblerListingLocation>
       <ObjectFileName>$(IntDir)</ObjectFileName>
-      <ProgramDataBaseFileName>C:/Sandbox/SimdisPlugin/vc11/Code20_RDM/RelWithDebInfo/piSimplePlatform.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(ProjectDir)/RelWithDebInfo/piSimplePlatform.pdb</ProgramDataBaseFileName>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;PLUGINS=1;_CRT_SECURE_NO_WARNINGS;SIM_LITTLE_ENDIAN;FLOAT_MATH_FUNCTIONS;FOXDLL;FOX_BIGENDIAN=0;FTGL_LIBRARY_STATIC;XML_STATIC;CMAKE_INTDIR=\"RelWithDebInfo\";SimplePlatform_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:/temp/PluginAPI/vc11/STD;C:/temp/PluginAPI/vc11/STL;C:/temp/PluginAPI/vc11/PluginClient;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(PluginAPI_v11)/STD;$(PluginAPI_v11)/STL;$(PluginAPI_v11)/PluginClient;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:/temp/PluginAPI/vc11/STD;C:/temp/PluginAPI/vc11/STL;C:/temp/PluginAPI/vc11/PluginClient;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(PluginAPI_v11)/STD;$(PluginAPI_v11)/STL;$(PluginAPI_v11)/PluginClient;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -133,8 +133,8 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;..\PluginClient\RelWithDebInfo\PluginClient.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ImportLibrary>C:/Sandbox/SimdisPlugin/vc11/Code20_RDM/RelWithDebInfo/SimplePlatform.lib</ImportLibrary>
-      <ProgramDataBaseFile>C:/Sandbox/SimdisPlugin/vc11/Code20_RDM/RelWithDebInfo/piSimplePlatform.pdb</ProgramDataBaseFile>
+      <ImportLibrary>$(ProjectDir)/RelWithDebInfo/SimplePlatform.lib</ImportLibrary>
+      <ProgramDataBaseFile>$(ProjectDir)/RelWithDebInfo/piSimplePlatform.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version>
       </Version>
@@ -154,15 +154,18 @@
     <ClInclude Include="include\TrackData.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\temp\pluginAPIBuild\vc11\PluginClient\PluginClient.vcxproj">
-      <Project>{a2aa74cd-e2bb-4be9-a7cd-6e5edb1fc347}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\temp\pluginAPIBuild\vc11\ZERO_CHECK.vcxproj">
-      <Project>{9158e045-458b-4bc1-b5c4-fefcb9471c50}</Project>
-    </ProjectReference>
+    <ResourceCompile Include="SimplePlatform.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="SimplePlatform.rc" />
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PluginAPI_v11\PluginClient\PluginClient.vcxproj">
+      <Project>{64eb0d25-8b1f-4152-9cff-722784177570}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\PluginAPI_v11\ZERO_CHECK.vcxproj">
+      <Project>{95f3874c-1492-4188-a794-020e20a7c758}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

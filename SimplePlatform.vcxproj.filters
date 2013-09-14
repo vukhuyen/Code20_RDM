@@ -39,4 +39,7 @@
   <ItemGroup>
     <ResourceCompile Include="SimplePlatform.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
 </Project>
