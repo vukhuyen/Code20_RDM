@@ -46,14 +46,14 @@ protected:
 	DataTableId_t scenTableId3_;
 	DataTableId_t scenTableId4_;
 
-	void findPlatform_(double timeVal, const std::string& name);
 	void createNewPlatform_(double newTime);
 	void updatePlatform_(double timeVal, int platId);
 
 	PIData::PIPlatformPoint calcPlatformPoint_(double timeVal, int platId) const;	///Calculates a platform point based on the given time
 
-	//////////////// 
-	//bool putPoint(TrackData* data);
+	////////////////
+	void addToList(std::vector<PIData::UniqueID_t> platformVec){platformVec_ = platformVec};
+	void createNewPlatform_(double newTime, TrackData* track);
 
 public:
 
@@ -70,10 +70,11 @@ public:
 	int screenDataFromPlatform2(PIData::UniqueID_t id, PIData::PIPlatformPoint* point) const;
 
 
+	void initialize(double startTime, TrackData* track);
 
 	/// Creates a SIMDIS scenario if needed, before platforms are created
 	void createScenarioIfNecessary (int refYear, const double* originLLA);
-
+	void processPlatformVec(double newTime, TrackData* track);
 	int getPlatformList();
 };
 

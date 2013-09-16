@@ -15,6 +15,7 @@ Classification: UNCLASSIFIED
 #define PLATFORMLOADER_H
 
 #include "PIIncludes.h"
+#include <vector>;
 
 class PlatformEngine;
 class PlatformDialog;
@@ -50,7 +51,9 @@ protected:
 	PIButton *platformButton_;
 	PIButton *startButton_;	///< Start Button
 	PIButton *stopButton_;	///< Stop Button
-	//bool running_;
+	bool live_;
+
+	std::vector<PIData::UniqueID_t>& trackList_;
 
 	void createDialog_();		/// Helper function for creating the dialog
 	
@@ -59,6 +62,8 @@ protected:
 	void startProcessing_ ();	///Initializes the scenario into a file or live mode
 	
 	void stopProcessing_();		///Stops any processing that might have been occurring
+
+	void startProcessing_(std::vector<PIData::UniqueID_t>& trackList);
 
 public:
 	//constructor

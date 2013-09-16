@@ -134,16 +134,41 @@ void PlatformEngine::initialize(double startTime)
 
 	// Go ahead and process the initial time
 	advanceToTime(startTime_); //ORIG
-	//createNewPlatform_(startTime_);
 }
 
-/**
-*	Searches the list of platforms for a given callsign or name
-*	If found, update the platform, otherwise create new one
-**/
-void PlatformEngine::findPlatform_(double timeVal, const std::string& name)
-{
 
+int getRefYear(){
+	// Set reference year of the scenario to the current system year	
+	time_t t;
+	t = time(NULL); ////get current time 
+	struct tm* gmt = gmtime(&t);
+	return (gmt->tm_year+1900);
+}
+void PlatformEngine::initialize(double startTime, TrackData* track)
+{
+	startTime_ = startTime;
+
+	// Make sure that the clock is currently stopped
+	PIData::clockStop();
+
+
+	// If the scenario is already initialized, no need to initialize again
+	if (!PIData::isScenarioInitialized())
+	{
+		PIData::initializeScenario("Track Emulation",
+			5555, //port number
+			PI_NETWORK_PROTOCOL_MULTICAST, //protocol, ignored for now
+			true); //live mode
+		PIData::setDescription("RDM Platform Demo");
+		PIData::setClassification("UNCLASSIFIED");
+		PIData::setClassificationColor (PIRGBA (0, 255, 0, 128));
+		PIData::setReferenceYear (getRefYear());
+		//PIData::setOriginLLA (originLLA[0], originLLA[1], originLLA[2]);
+	}
+
+	processPlatformVec(startTime, track);
+
+	clockSetMode(PI_CLOCKMODE_FREEWHEEL, startTime_); //live mode
 }
 
 
@@ -192,6 +217,22 @@ void PlatformEngine::createNewPlatform_(double newTime)
 	cout <<"\nNew Platform id: "<< id << "lat: " << (platPoint.position.x*UTILS::CU_RAD2DEG)<<"\nlon: " << (platPoint.position.y*UTILS::CU_RAD2DEG);
 }
 
+void PlatformEngine::createNewPlatform_(double newTime, TrackData* track)
+{
+	// The next platform ID is going to be 1 higher than the existing number of platforms
+	size_t id = platformVec_.size() + 1;
+
+	//Request a new data point for the platform
+	PIPlatformPoint platPoint = calcPlatformPoint_(newTime, static_cast<int>(id));
+
+	//Creat the platform by passing over its header and first data point
+	PIData::UniqueID_t hostPlat = track->sendToSIMDIS();
+
+	//Save the UniqueID for later use
+	platformVec_.push_back(hostPlat);
+}
+
+
 
 /**
 * Calculates a platform position based on its ID and current time
@@ -220,7 +261,7 @@ PIData::PIPlatformPoint PlatformEngine::calcPlatformPoint_(double timeVal, int p
 		PIPoint(0.,0.,0.),		// Acceleration vector
 		referenceFrame);
 
-	
+
 	return ppoint;
 }
 
@@ -245,7 +286,6 @@ void PlatformEngine::advanceToTime(double newTime)
 {
 	// Determine if a new platform needs to be added
 	size_t numPlatforms = platformVec_.size();//ORIG
-	//size_t numPlatforms = getPlatformList();
 
 
 	if ((platformVec_.size() < s_MaxPlatforms) && (newTime - startTime_ >= numPlatforms))
@@ -259,6 +299,13 @@ void PlatformEngine::advanceToTime(double newTime)
 	int k;
 	for (k = 0; k < static_cast<int>(numPlatforms); ++k)
 		updatePlatform_(newTime, k + 1);
+}
+
+void PlatformEngine::processPlatformVec(double newTime, TrackData* track){
+	size_t numPlatforms = platformVec_.size();
+	int k;
+	for (k = 0; k < static_cast<int>(numPlatforms); ++k)
+		createNewPlatform_(newTime, track);
 }
 
 
@@ -298,9 +345,4 @@ int PlatformEngine::screenDataFromPlatform2(PIData::UniqueID_t id, PIData::PIPla
 	point->velocity.set(vel[0], vel[1], vel[2]);
 	cout <<"New velocity values set. x:"<<point->velocity.x<<endl;
 	return 0;
-}
-
-void printPlatform()
-{
-
 }

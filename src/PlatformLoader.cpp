@@ -21,13 +21,17 @@ A simple plugin to manage platform in simdis
 #include "PlatformLoader.h"
 #include <time.h>
 #include <sys/timeb.h>
+#include <iostream>
+#include <fstream>
+
 #include "PlatformEngine.h"
 #include "PlatformDialog.h"
+#include "TrackData.h"
 
 // Required macro delcaration of the class being used
 PI_DECLARE_APPLICATION (SimplePlatform)
 
-static const int FILEMODE_DURATION = 1; // minutes
+	static const int FILEMODE_DURATION = 1; // minutes
 
 /**
 * Time (secs) since the beginning of the year
@@ -37,7 +41,7 @@ inline double yeartime()
 {	
 	timeb tb;
 	time_t t = time(NULL); 
-	
+
 	struct tm* gmt = gmtime(&t); 
 	tzset();
 	gmt->tm_isdst = gmt->tm_mon = gmt->tm_min = gmt->tm_hour = 0;
@@ -114,7 +118,14 @@ void SimplePlatform::openLocation (std::string location, int port, PIData::PINet
 {
 	//if (running_)
 	//	stopProcessing_();
+
 	// Start a new connection depending on the "location"; string comes from the initializeScenario() in SSEngine
+	ifstream ifs (location.c_str());
+	if (!ifs)
+		return;
+	//DataStreamListener handleData();
+	//DataStreamListener class read data
+
 	startProcessing_();
 }
 
@@ -206,42 +217,30 @@ void SimplePlatform::startProcessing_()
 		PIData::deleteScenario();
 	}
 
-	if (platformEngine_ == NULL)
+	if (platformEngine_ == NULL){
 		platformEngine_ = new PlatformEngine;
-
-
-	double currentTime = yeartime();
-	platformEngine_->initialize(currentTime);
-	cout <<"Initialize at the SIMDIS time: "<< currentTime <<endl;
-
-	/*
-	// For File mode, we simulate reading a data file that is five minutes long at
-	// ten hertz update rate.  To do this, we initialize the clock to an arbitrary
-	// time (say, now) and immediately and repeatedly call the advanceToTime().
-	// Additionally, we do not set the "running" flag because we don't want data
-	// continuously updating like we do in live mode.
-
-	// 5 minutes, 60 seconds per minute, 10 hertz
-	int numUpdates = FILEMODE_DURATION * 60 * 10;
-	while (--numUpdates > 0)
-	{
-	currentTime += 0.1;
-	platformEngine_->advanceToTime (currentTime);
-	cout << "\nnumUpdates: " <<numUpdates;
 	}
 
 
-	// Now that all the updates have been sent, we close out
-	PIData::clockAutoConfigureBeginEnd();
-	PIData::clockSetTime (PIData::clockGetBegin());
-	delete platformEngine_;
-	platformEngine_ = NULL;
-	*/
+	double currentTime = yeartime();
+	if (live_)
+		//DataStreamListener handleData();
+			//DataStreamListener class read stream data
+				//DataStreamListener class processess data and initializes TrackData object
+					//Add TrackData objects into a track list vector (QList) 		
+						platformEngine_->initialize(currentTime, trackList_);
+	else
+		platformEngine_->initialize(currentTime);
 
 	// Stop the waiting cursor
 	PICommon::endWaitCursor();	
 }
 
+
+void SimplePlatform::startProcessing_(std::vector<PIData::UniqueID_t>& trackList)
+{
+
+}
 /**
 * Stops any processing that might have been occurring
 */
@@ -262,7 +261,7 @@ void SimplePlatform::stopProcessing_()
 	cout <<"Not running..."<<endl;
 }
 
-    ///Processes mouse events from the host
+///Processes mouse events from the host
 int SimplePlatform::handleMouseEvent (PIGUI::PIMouseEventType_t eventType, const PIGUI::PIMouseEvent& eventData){
 	return platformDialog_->handleMouseEvent(eventType, eventData);
 }

@@ -12,16 +12,21 @@ Classification: UNCLASSIFIED
 * disclose, or release this software.
 ****************************************************************************
 */
-
-#include "TrackData.h"
+#include <time.h>
+#include <sys/timeb.h>
 #include <string>
+#include "TrackData.h"
 
 TrackData::TrackData (const std::string& name)
 	: callsign_ (name)
 {
 	// Initialize reference year to a high value so that it can be MIN'd later
 	refYear_ = 9999;
-	// This plug-in is not Y-10k compliant!
+		// Set reference year of the scenario to the current system year	
+	time_t t;
+	t = time(NULL); ////get current time 
+	struct tm* gmt = gmtime(&t);
+	PIData::setReferenceYear(gmt->tm_year+1900);
 }
 
 void TrackData::addData (double timeVal, int refYear, double lat, double lon, double alt)
@@ -42,6 +47,20 @@ void TrackData::addData (double timeVal, int refYear, double lat, double lon, do
 	dataPoints_[timeVal] = dataPoint;
 }
 
+void TrackData::addData(double timeVal, int refYear, Tpsi* tpsi){
+	if (refYear < refYear_)
+		refYear_ = refYear;
+
+	// Create the PIPlatformPoint structure and add it to internals
+	PIPlatformPoint dataPoint;
+	dataPoint.time = timeVal;
+	dataPoint.position.x = tpsi->getX_();
+	dataPoint.position.y = tpsi->getY_();
+	dataPoint.position.z = 500;
+	dataPoint.referenceFrame.coordSystem = PI_COORDSYS_LLA;
+	dataPoints_[timeVal] = dataPoint;
+}
+
 void TrackData::getOriginLLA (double* lla) const
 {
 	if (dataPoints_.empty())
@@ -52,6 +71,7 @@ void TrackData::getOriginLLA (double* lla) const
 	lla[1] = iter->second.position.y;
 	lla[2] = iter->second.position.z;
 }
+
 
 /**
 * Functor class that will create a platform or add data points
@@ -83,11 +103,14 @@ public:
 			cout <<callsign_<<": ID exists :"<<id_<<".  Add data point for TrackData"<<endl;
 		}
 	}
+
+	PIData::UniqueID_t getId(){ return id_};
 };
 
-void TrackData::sendToSIMDIS()
+PIData::UniqueID_t TrackData::sendToSIMDIS()
 {
 	// Create a functor object to send each data point to SIMDIS
 	SendPlatformPoint sendPlatformPoint (callsign_);
 	for_each (dataPoints_.begin(), dataPoints_.end(), sendPlatformPoint);
+	return sendPlatformPoint.getId();
 }
