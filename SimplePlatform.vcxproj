@@ -159,6 +159,14 @@
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\vc11\PluginClient\PluginClient.vcxproj">
+      <Project>{3b4257a4-40b0-408d-834b-f4fded949780}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\vc11\ZERO_CHECK.vcxproj">
+      <Project>{d3592749-c864-4eaa-9616-f141e3d58fa3}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

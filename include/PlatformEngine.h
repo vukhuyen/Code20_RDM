@@ -52,7 +52,7 @@ protected:
 	PIData::PIPlatformPoint calcPlatformPoint_(double timeVal, int platId) const;	///Calculates a platform point based on the given time
 
 	////////////////
-	void addToList(std::vector<PIData::UniqueID_t> platformVec){platformVec_ = platformVec};
+	void addToList(std::vector<PIData::UniqueID_t> platformVec){platformVec_ = platformVec;};
 	void createNewPlatform_(double newTime, TrackData* track);
 
 public:
@@ -69,13 +69,11 @@ public:
 	///Handles callback functions from regCBPreAuthorizePlatformData
 	int screenDataFromPlatform2(PIData::UniqueID_t id, PIData::PIPlatformPoint* point) const;
 
-
-	void initialize(double startTime, TrackData* track);
-
+	/// Added to test with live data
 	/// Creates a SIMDIS scenario if needed, before platforms are created
 	void createScenarioIfNecessary (int refYear, const double* originLLA);
-	void processPlatformVec(double newTime, TrackData* track);
-	int getPlatformList();
+	void initialize(double startTime, TrackData* track);
+	void advanceToTime(double newTime, TrackData* track);
 };
 
 

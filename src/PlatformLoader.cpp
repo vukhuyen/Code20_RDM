@@ -14,8 +14,7 @@ Classification: UNCLASSIFIED
 
 /*
 PlatformLoader.cpp
-SimplePlatform
-A simple plugin to manage platform in simdis
+A Main Plugin class
 */
 
 #include "PlatformLoader.h"
@@ -30,8 +29,6 @@ A simple plugin to manage platform in simdis
 
 // Required macro delcaration of the class being used
 PI_DECLARE_APPLICATION (SimplePlatform)
-
-	static const int FILEMODE_DURATION = 1; // minutes
 
 /**
 * Time (secs) since the beginning of the year
@@ -58,7 +55,6 @@ SimplePlatform::SimplePlatform()
 	platformEngine_(NULL),
 	platformDialog_(NULL),
 	dialog_(NULL),
-	//running_(false),
 	startButton_(NULL),
 	stopButton_(NULL)
 {
@@ -73,7 +69,7 @@ SimplePlatform::~SimplePlatform()
 
 int SimplePlatform::StartUp(std::vector<std::string>* args){
 	// Adds a menu item under Plugins; when clicked, onCmdRunDialog() is called 
-	new PIMenuItem(NULL, "Simple Platform...", CreateCallback (this, &SimplePlatform::onCmdRunDialog));
+	new PIMenuItem(NULL, "RDM Demo...", CreateCallback (this, &SimplePlatform::onCmdRunDialog));
 
 	return 0;
 }
@@ -81,8 +77,7 @@ int SimplePlatform::StartUp(std::vector<std::string>* args){
 /// The function called repeatedly by SIMDIS
 int SimplePlatform::Callback()
 {
-	// Update the data engine's data time.  Assumed LIVE MODE
-
+	// Update the data engine's data time.  
 	if (platformEngine_ != NULL)
 	{
 		static int skip = 0;
@@ -116,16 +111,15 @@ void SimplePlatform::findNetworkLocation (std::string defaultServer, int default
 
 void SimplePlatform::openLocation (std::string location, int port, PIData::PINetworkProtocol_t protocol)
 {
-	//if (running_)
+	//if (running_) //stop the process if there's another network running to start over
 	//	stopProcessing_();
 
 	// Start a new connection depending on the "location"; string comes from the initializeScenario() in SSEngine
-	ifstream ifs (location.c_str());
-	if (!ifs)
-		return;
-	//DataStreamListener handleData();
-	//DataStreamListener class read data
+	//ifstream ifs (location.c_str());
+	//if (!ifs)
+		//return;
 
+	//DataStreamListener handleData();
 	startProcessing_();
 }
 
@@ -175,7 +169,7 @@ void SimplePlatform::createDialog_()
 	if (dialog_!=NULL)
 		return;
 
-	dialog_ = new PIDialogBox("Simple Platform Plugin", NULL, PI_ALL_NORMAL, 0, 200, 15, 15, 5, 5);
+	dialog_ = new PIDialogBox("A Simple Plugin Demo", NULL, PI_ALL_NORMAL, 0, 200, 15, 15, 5, 5);
 	PIVerticalFrame* vFrame = new PIVerticalFrame(dialog_, PI_LAYOUT_CENTER_X, 300);
 	PIHorizontalFrame* hFrame = new PIHorizontalFrame(dialog_, PI_LAYOUT_CENTER_X, 300, 50, 0, 0, 5, 0, 45);	
 
@@ -190,22 +184,6 @@ void SimplePlatform::createDialog_()
 	}
 
 	enableAndDisable_();
-}
-
-void SimplePlatform::enableAndDisable_()
-{
-	if (dialog_==NULL)
-		return;
-
-	// Start button is enabled when SIMDIS has a scenario and the clock is in
-	// freewheel or simulation mode; SimpleServer cannot interrupt another
-	// DCS or plug-in live scenario, but it can 'overwrite' a file.
-	if (PIData::isScenarioInitialized() &&
-		(PIData::clockGetMode() == PI_CLOCKMODE_FREEWHEEL ||
-		PIData::clockGetMode() == PI_CLOCKMODE_SIMULATION ))
-		startButton_->disable();
-	else
-		startButton_->enable();
 }
 
 void SimplePlatform::startProcessing_()
@@ -228,7 +206,7 @@ void SimplePlatform::startProcessing_()
 			//DataStreamListener class read stream data
 				//DataStreamListener class processess data and initializes TrackData object
 					//Add TrackData objects into a track list vector (QList) 		
-						platformEngine_->initialize(currentTime, trackList_);
+						platformEngine_->initialize(currentTime, platformVec_);
 	else
 		platformEngine_->initialize(currentTime);
 
@@ -241,6 +219,7 @@ void SimplePlatform::startProcessing_(std::vector<PIData::UniqueID_t>& trackList
 {
 
 }
+
 /**
 * Stops any processing that might have been occurring
 */
@@ -257,11 +236,30 @@ void SimplePlatform::stopProcessing_()
 	platformEngine_ = NULL;
 	enableAndDisable_();
 	//running_ = false;
-
-	cout <<"Not running..."<<endl;
 }
+
+
+//////////////////////////////////////
+//	UTILS
+//////////////////////////////////////
 
 ///Processes mouse events from the host
 int SimplePlatform::handleMouseEvent (PIGUI::PIMouseEventType_t eventType, const PIGUI::PIMouseEvent& eventData){
 	return platformDialog_->handleMouseEvent(eventType, eventData);
+}
+
+void SimplePlatform::enableAndDisable_()
+{
+	if (dialog_==NULL)
+		return;
+
+	// Start button is enabled when SIMDIS has a scenario and the clock is in
+	// freewheel or simulation mode; SimpleServer cannot interrupt another
+	// DCS or plug-in live scenario, but it can 'overwrite' a file.
+	if (PIData::isScenarioInitialized() &&
+		(PIData::clockGetMode() == PI_CLOCKMODE_FREEWHEEL ||
+		PIData::clockGetMode() == PI_CLOCKMODE_SIMULATION ))
+		startButton_->disable();
+	else
+		startButton_->enable();
 }

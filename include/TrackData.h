@@ -36,7 +36,7 @@ protected:
 	std::string callsign_;		//callsign name
 	uint64_t originalID_;	//platform id
 	std::string iconName_;		//platform icon
-	Tpsi* tpsi_;
+	Tspi* tspi_;
 
 
 	int refYear_;	///Earliest year encountered
@@ -58,7 +58,7 @@ public:
 	* @param alt Altitude of posit in meters
 	*/
 	void addData(double timeVal, int refYear, double lat, double lon, double alt);
-	void addData(double timeVal, int refYear, Tpsi* tspi);
+	void addData(double timeVal, int refYear, Tspi* tspi);
 
 	void setCallsign(std::string& name) {callsign_ = name;}
 	std::string getCallsign() {return callsign_;}
@@ -66,31 +66,29 @@ public:
 	std::string getIcon(){return iconName_;};
 	void setOrigId(uint64_t originalID ){originalID_ = originalID;};
 	uint64_t getOrigId(){return originalID_;};
-	void setTspi(Tpsi* tpsi){tpsi_=tpsi;};
-	Tpsi* getTpsi(){return tpsi_;};
+	void setTspi(Tspi* tpsi){tspi_=tpsi;};
+	Tspi* getTpsi(){return tspi_;};
 
 	int getRefYear() const{return refYear_;}
 
 	void getOriginLLA(double* lla) const;
-
-
-
+	
 	///Calculates the velocity values and commits the results to SIMDIS
 	PIData::UniqueID_t sendToSIMDIS();
 };
 
-class Tpsi
+class Tspi
 {
 protected:
-	double x_;					//Reference latitude position in degree
-	double y_;					//Reference longitude position in degree
-	double velocity_;
-public:
-	void setLat(double lat){x_ = lat * UTILS::CU_DEG2RAD;};
-	void setLon(double lon){y_= lon * UTILS::CU_DEG2RAD;};
+	double lat_;					//Reference latitude position in degree
+	double lon_;					//Reference longitude position in degree
 
-	double getX_(){return x_;};
-	double getY_(){return y_;};
+public:
+	void setLat(double lat){lat_ = lat;};
+	void setLon(double lon){lon_= lon;};
+
+	double getLat_(){return lat_;};
+	double getLon_(){return lon_;};
 };
 
 #endif

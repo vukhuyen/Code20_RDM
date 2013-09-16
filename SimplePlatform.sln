@@ -2,13 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimplePlatform", "SimplePlatform.vcxproj", "{267AA2F0-552E-4C40-A16C-EDA256E64F72}"
-	ProjectSection(ProjectDependencies) = postProject
-		{64EB0D25-8B1F-4152-9CFF-722784177570} = {64EB0D25-8B1F-4152-9CFF-722784177570}
-	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PluginClient", "..\PluginAPI_v11\PluginClient\PluginClient.vcxproj", "{64EB0D25-8B1F-4152-9CFF-722784177570}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZERO_CHECK", "..\vc11\ZERO_CHECK.vcxproj", "{D3592749-C864-4EAA-9616-F141E3D58FA3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZERO_CHECK", "..\PluginAPI_v11\ZERO_CHECK.vcxproj", "{95F3874C-1492-4188-A794-020E20A7C758}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PluginClient", "..\vc11\PluginClient\PluginClient.vcxproj", "{3B4257A4-40B0-408D-834B-F4FDED949780}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,14 +17,14 @@ Global
 		{267AA2F0-552E-4C40-A16C-EDA256E64F72}.Release|x64.Build.0 = Release|x64
 		{267AA2F0-552E-4C40-A16C-EDA256E64F72}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
 		{267AA2F0-552E-4C40-A16C-EDA256E64F72}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|x64
-		{64EB0D25-8B1F-4152-9CFF-722784177570}.Release|x64.ActiveCfg = Release|x64
-		{64EB0D25-8B1F-4152-9CFF-722784177570}.Release|x64.Build.0 = Release|x64
-		{64EB0D25-8B1F-4152-9CFF-722784177570}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
-		{64EB0D25-8B1F-4152-9CFF-722784177570}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|x64
-		{95F3874C-1492-4188-A794-020E20A7C758}.Release|x64.ActiveCfg = Release|x64
-		{95F3874C-1492-4188-A794-020E20A7C758}.Release|x64.Build.0 = Release|x64
-		{95F3874C-1492-4188-A794-020E20A7C758}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
-		{95F3874C-1492-4188-A794-020E20A7C758}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|x64
+		{D3592749-C864-4EAA-9616-F141E3D58FA3}.Release|x64.ActiveCfg = Release|x64
+		{D3592749-C864-4EAA-9616-F141E3D58FA3}.Release|x64.Build.0 = Release|x64
+		{D3592749-C864-4EAA-9616-F141E3D58FA3}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
+		{D3592749-C864-4EAA-9616-F141E3D58FA3}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|x64
+		{3B4257A4-40B0-408D-834B-F4FDED949780}.Release|x64.ActiveCfg = Release|x64
+		{3B4257A4-40B0-408D-834B-F4FDED949780}.Release|x64.Build.0 = Release|x64
+		{3B4257A4-40B0-408D-834B-F4FDED949780}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
+		{3B4257A4-40B0-408D-834B-F4FDED949780}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

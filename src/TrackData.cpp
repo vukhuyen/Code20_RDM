@@ -21,12 +21,13 @@ TrackData::TrackData (const std::string& name)
 	: callsign_ (name)
 {
 	// Initialize reference year to a high value so that it can be MIN'd later
-	refYear_ = 9999;
-		// Set reference year of the scenario to the current system year	
+	//refYear_ = 9999;
+	// Set reference year of the scenario to the current system year	
 	time_t t;
 	t = time(NULL); ////get current time 
 	struct tm* gmt = gmtime(&t);
-	PIData::setReferenceYear(gmt->tm_year+1900);
+	refYear_ = (gmt->tm_year+1900);
+	PIData::setReferenceYear(refYear_);
 }
 
 void TrackData::addData (double timeVal, int refYear, double lat, double lon, double alt)
@@ -47,17 +48,17 @@ void TrackData::addData (double timeVal, int refYear, double lat, double lon, do
 	dataPoints_[timeVal] = dataPoint;
 }
 
-void TrackData::addData(double timeVal, int refYear, Tpsi* tpsi){
+void TrackData::addData(double timeVal, int refYear, Tspi* tpsi){
 	if (refYear < refYear_)
 		refYear_ = refYear;
 
 	// Create the PIPlatformPoint structure and add it to internals
 	PIPlatformPoint dataPoint;
 	dataPoint.time = timeVal;
-	dataPoint.position.x = tpsi->getX_();
-	dataPoint.position.y = tpsi->getY_();
-	dataPoint.position.z = 500;
-	dataPoint.referenceFrame.coordSystem = PI_COORDSYS_LLA;
+	dataPoint.position.x = tpsi->getLat_() * UTILS::CU_DEG2RAD;
+	dataPoint.position.y = tpsi->getLon_() * UTILS::CU_DEG2RAD;
+	dataPoint.position.z = 500;			//dummy
+	dataPoint.referenceFrame.coordSystem = PI_COORDSYS_LLA; //dummy
 	dataPoints_[timeVal] = dataPoint;
 }
 
